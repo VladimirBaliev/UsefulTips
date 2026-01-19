@@ -10,6 +10,7 @@
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
+    "db:test": "tsx prisma/test-data.ts",
     "db:studio": "prisma studio"
   },
   "prisma": {
@@ -18,6 +19,7 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "next": "^16.1.3",
+    "pg": "^8.17.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

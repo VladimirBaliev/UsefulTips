@@ -181,6 +181,8 @@ npm run db:studio        # Открыть Prisma Studio
 ## Дополнительная информация
 
 - [Документация Next.js](https://nextjs.org/docs)
-- [Документация Prisma](https://www.prisma.io/docs)
+- [Документация Prisma](
+  
+)
 - [Документация Neon](https://neon.tech/docs)
 - [Документация Vercel](https://vercel.com/docs)
