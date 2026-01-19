@@ -24,11 +24,24 @@ export function getDbPool(dbType: DbType): Pool {
 
 export async function testConnection(dbType: DbType): Promise<{ success: boolean; error?: string }> {
   try {
+    const config = getDbConfig(dbType)
+    if (!config.url || config.url.trim() === '') {
+      return { 
+        success: false, 
+        error: `DATABASE_URL не настроен для ${dbType === 'local' ? 'локальной' : 'рабочей'} БД. Проверьте переменные окружения: ${dbType === 'local' ? 'DATABASE_URL_LOCAL или DATABASE_URL' : 'DATABASE_URL'}` 
+      }
+    }
     const pool = getDbPool(dbType)
     await pool.query('SELECT 1')
     return { success: true }
   } catch (error: any) {
-    return { success: false, error: error.message }
+    if (error.message && error.message.includes('not configured')) {
+      return { 
+        success: false, 
+        error: error.message 
+      }
+    }
+    return { success: false, error: error.message || 'Ошибка подключения к базе данных' }
   }
 }
 
