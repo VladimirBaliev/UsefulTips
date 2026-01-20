@@ -54,3 +54,4 @@ DATABASE_URL="postgresql://postgres:password@localhost:5432/mydb"
 - Переменные окружения читаются автоматически Next.js при запуске
 - Если указан `DATABASE_URL_LOCAL`, он будет использоваться для локальной БД, иначе используется `DATABASE_URL`
 
+
