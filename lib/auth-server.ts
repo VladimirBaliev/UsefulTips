@@ -1,16 +1,40 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from './auth'
 import { prisma } from './prisma'
+import { cookies } from 'next/headers'
 
 /**
  * Получить текущего пользователя на сервере
+ * Для NextAuth v5 с database sessions получаем сессию через cookies
  */
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions)
-  if (!session?.user?.id) {
+  const cookieStore = await cookies()
+  
+  // Пробуем разные варианты имени cookie для session token
+  const sessionToken = 
+    cookieStore.get('next-auth.session-token')?.value || 
+    cookieStore.get('__Secure-next-auth.session-token')?.value ||
+    cookieStore.get('authjs.session-token')?.value ||
+    cookieStore.get('__Secure-authjs.session-token')?.value
+  
+  if (!sessionToken) {
     return null
   }
-  return session.user
+  
+  // Получаем сессию из базы данных
+  const session = await prisma.session.findUnique({
+    where: { sessionToken },
+    include: { user: true },
+  })
+  
+  if (!session || !session.user || new Date(session.expires) < new Date()) {
+    return null
+  }
+  
+  return {
+    id: session.user.id,
+    email: session.user.email,
+    name: session.user.name,
+    image: session.user.image,
+  }
 }
 
 /**
@@ -40,4 +64,5 @@ export async function getUserById(userId: string) {
     where: { id: userId },
   })
 }
+
 

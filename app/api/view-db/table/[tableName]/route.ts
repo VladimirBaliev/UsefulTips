@@ -5,8 +5,9 @@ import { DbType } from '@/lib/db-config'
 // GET - получение данных таблицы с пагинацией
 export async function GET(
   request: NextRequest,
-  { params }: { params: { tableName: string } }
+  { params }: { params: Promise<{ tableName: string }> }
 ) {
+  const { tableName } = await params
   try {
     const searchParams = request.nextUrl.searchParams
     const dbType = (searchParams.get('dbType') || 'local') as DbType
@@ -15,7 +16,6 @@ export async function GET(
     const offset = (page - 1) * limit
 
     const pool = getDbPool(dbType)
-    const tableName = params.tableName
 
     // Проверка существования таблицы
     const tableCheck = await pool.query(
@@ -76,15 +76,15 @@ export async function GET(
 // POST - создание новой записи
 export async function POST(
   request: NextRequest,
-  { params }: { params: { tableName: string } }
+  { params }: { params: Promise<{ tableName: string }> }
 ) {
+  const { tableName } = await params
   try {
     const searchParams = request.nextUrl.searchParams
     const dbType = (searchParams.get('dbType') || 'local') as DbType
     const body = await request.json()
 
     const pool = getDbPool(dbType)
-    const tableName = params.tableName
 
     const columns = Object.keys(body)
     const values = Object.values(body)
@@ -109,8 +109,9 @@ export async function POST(
 // PUT - обновление записи
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { tableName: string } }
+  { params }: { params: Promise<{ tableName: string }> }
 ) {
+  const { tableName } = await params
   try {
     const searchParams = request.nextUrl.searchParams
     const dbType = (searchParams.get('dbType') || 'local') as DbType
@@ -122,7 +123,6 @@ export async function PUT(
     }
 
     const pool = getDbPool(dbType)
-    const tableName = params.tableName
 
     const columns = Object.keys(updateData)
     const values = Object.values(updateData)
@@ -152,8 +152,9 @@ export async function PUT(
 // DELETE - удаление записи
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { tableName: string } }
+  { params }: { params: Promise<{ tableName: string }> }
 ) {
+  const { tableName } = await params
   try {
     const searchParams = request.nextUrl.searchParams
     const dbType = (searchParams.get('dbType') || 'local') as DbType
@@ -165,7 +166,6 @@ export async function DELETE(
     }
 
     const pool = getDbPool(dbType)
-    const tableName = params.tableName
 
     const result = await pool.query(
       `DELETE FROM "${tableName}" WHERE "${idColumn}" = $1 RETURNING *`,
@@ -184,6 +184,7 @@ export async function DELETE(
     )
   }
 }
+
 
 
 

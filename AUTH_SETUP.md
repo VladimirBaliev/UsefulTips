@@ -28,7 +28,7 @@ npm install next-auth@beta @auth/prisma-adapter --legacy-peer-deps --registry ht
      - Заполните обязательные поля
    - Выберите тип приложения: "Web application"
    - Добавьте Authorized redirect URIs:
-     - Для разработки: `http://localhost:3000/api/auth/callback/google`
+     - Для разработки: `/api/auth/callback/googlehttp://localhost:3000`
      - Для продакшена: `https://yourdomain.com/api/auth/callback/google`
    - Нажмите "Create"
 5. Скопируйте Client ID и Client Secret
