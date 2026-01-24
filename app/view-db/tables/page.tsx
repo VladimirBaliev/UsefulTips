@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
-export default function TablesPage() {
+function TablesPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const dbType = searchParams.get('dbType') || 'local'
@@ -132,6 +132,18 @@ export default function TablesPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function TablesPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+        <div style={{ textAlign: 'center', padding: '3rem' }}>Загрузка...</div>
+      </div>
+    }>
+      <TablesPageContent />
+    </Suspense>
   )
 }
 
