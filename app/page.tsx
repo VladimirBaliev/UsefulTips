@@ -20,7 +20,15 @@ async function getNotes() {
 
 export default async function Home() {
   const { notes, error } = await getNotes()
-  const user = await getCurrentUser()
+  
+  // Безопасно получаем пользователя, не падаем при ошибках
+  let user = null
+  try {
+    user = await getCurrentUser()
+  } catch (userError) {
+    // Игнорируем ошибки авторизации, чтобы страница могла загрузиться
+    console.error('Error getting user:', userError)
+  }
 
   return (
     <main className="container">
