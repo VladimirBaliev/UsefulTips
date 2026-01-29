@@ -49,6 +49,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/dashboard"
+                className="btn-primary"
                 style={{
                   padding: '0.75rem 1.5rem',
                   backgroundColor: '#4285f4',
@@ -61,12 +62,6 @@ export default async function Home() {
                   gap: '0.5rem',
                   transition: 'background-color 0.2s',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#357ae8'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#4285f4'
-                }}
               >
                 Панель управления
               </Link>
@@ -74,6 +69,7 @@ export default async function Home() {
           ) : (
             <Link
               href="/login"
+              className="btn-primary"
               style={{
                 padding: '0.75rem 1.5rem',
                 backgroundColor: '#4285f4',
@@ -85,12 +81,6 @@ export default async function Home() {
                 alignItems: 'center',
                 gap: '0.5rem',
                 transition: 'background-color 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#357ae8'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#4285f4'
               }}
             >
               <svg
