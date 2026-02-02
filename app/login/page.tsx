@@ -44,7 +44,7 @@ function LoginForm() {
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            ProStore
+            UsefulTips
           </h1>
           <p style={{ color: '#666', fontSize: '1rem' }}>Prompt Store</p>
         </div>
