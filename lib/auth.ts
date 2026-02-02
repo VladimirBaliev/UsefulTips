@@ -23,7 +23,7 @@ export const authOptions = {
     },
   },
   session: {
-    strategy: 'database',
+    strategy: 'database' as const,
   },
 }
 
