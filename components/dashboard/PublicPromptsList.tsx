@@ -47,7 +47,7 @@ export function PublicPromptsList({
   const [debouncedSearch, setDebouncedSearch] = useState(initialSearch)
   const [isPending, startTransition] = useTransition()
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null)
+  const [editingPrompt, setEditingPrompt] = useState<{ id: string; title: string; content: string; isPublic: boolean } | null>(null)
 
   // Debounce поиска
   useEffect(() => {
@@ -74,7 +74,7 @@ export function PublicPromptsList({
     }
   }, [debouncedSearch, initialSearch, router, searchParams])
 
-  const handleEdit = (prompt: Prompt) => {
+  const handleEdit = (prompt: { id: string; title: string; content: string; isPublic: boolean }) => {
     setEditingPrompt(prompt)
     setDialogOpen(true)
   }
@@ -115,7 +115,15 @@ export function PublicPromptsList({
             {prompts.map((prompt) => (
               <div key={prompt.id}>
                 <PromptCard
-                  prompt={prompt}
+                  prompt={{
+                    id: prompt.id,
+                    title: prompt.title,
+                    content: prompt.content,
+                    isPublic: prompt.isPublic,
+                    isFavorite: prompt.isFavorite,
+                    createdAt: prompt.createdAt,
+                    ownerId: prompt.ownerId,
+                  }}
                   currentUserId={currentUserId}
                   onEdit={handleEdit}
                 />

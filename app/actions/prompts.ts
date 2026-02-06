@@ -51,7 +51,7 @@ export async function createPrompt(formData: FormData) {
   } catch (error) {
     console.error('Error creating prompt:', error)
     if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message }
+      return { success: false, error: error.issues[0]?.message || 'Ошибка валидации' }
     }
     return { success: false, error: 'Не удалось создать промт' }
   }
@@ -104,7 +104,7 @@ export async function updatePrompt(formData: FormData) {
   } catch (error) {
     console.error('Error updating prompt:', error)
     if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message }
+      return { success: false, error: error.issues[0]?.message || 'Ошибка валидации' }
     }
     return { success: false, error: 'Не удалось обновить промт' }
   }
