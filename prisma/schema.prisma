@@ -95,6 +95,8 @@ model Prompt {
   description String?
   categoryId  String?     @map("category_id")
   visibility  PromptVisibility @default(PRIVATE)
+  isPublic    Boolean     @default(false) @map("is_public")
+  isFavorite  Boolean     @default(false) @map("is_favorite")
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
   publishedAt DateTime?   @map("published_at")
@@ -106,6 +108,8 @@ model Prompt {
 
   @@index([ownerId, updatedAt])
   @@index([visibility, createdAt])
+  @@index([isPublic])
+  @@index([isFavorite])
   @@map("prompts")
 }
 

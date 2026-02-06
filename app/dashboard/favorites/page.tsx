@@ -2,18 +2,15 @@ import { getCurrentUser } from '@/lib/auth-server'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { PromptsList } from '@/components/dashboard/PromptsList'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
-async function getMyPrompts(userId: string, search?: string, page: number = 1) {
+async function getFavoritePrompts(userId: string, search?: string, page: number = 1) {
   const pageSize = 10
   const skip = (page - 1) * pageSize
 
   const where: any = {
-    ownerId: userId,
+    isFavorite: true,
   }
 
   if (search) {
@@ -41,7 +38,7 @@ async function getMyPrompts(userId: string, search?: string, page: number = 1) {
   }
 }
 
-export default async function DashboardPage({
+export default async function FavoritesPage({
   searchParams,
 }: {
   searchParams: { search?: string; page?: string }
@@ -55,17 +52,14 @@ export default async function DashboardPage({
   const search = searchParams.search || ''
   const page = parseInt(searchParams.page || '1', 10)
 
-  const { prompts, total, totalPages } = await getMyPrompts(user.id, search, page)
+  const { prompts, total, totalPages } = await getFavoritePrompts(user.id, search, page)
 
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Личный кабинет</h1>
-            <h2 className="text-xl text-gray-600">Мои советы</h2>
-          </div>
-          <CreatePromptButton />
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Личный кабинет</h1>
+          <h2 className="text-xl text-gray-600">Избранное</h2>
         </div>
 
         <PromptsList
@@ -81,13 +75,6 @@ export default async function DashboardPage({
   )
 }
 
-function CreatePromptButton() {
-  return (
-    <Link href="/dashboard?action=create" scroll={false}>
-      <Button className="flex items-center gap-2">
-        <Plus className="w-4 h-4" />
-        Новый промт
-      </Button>
-    </Link>
-  )
-}
+
+
+
