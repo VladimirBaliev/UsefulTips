@@ -180,9 +180,10 @@ npm run db:studio        # Открыть Prisma Studio
 
 ## Дополнительная информация
 
-- [Документация Next.js](https://nextjs.org/docs)
+- [Документация Next.js](https://nextjs.org/docs)  
 - [Документация Prisma](
   
 )
 - [Документация Neon](https://neon.tech/docs)
 - [Документация Vercel](https://vercel.com/docs)
+ 

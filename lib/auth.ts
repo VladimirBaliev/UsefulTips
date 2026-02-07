@@ -3,6 +3,19 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from './prisma'
 import type { NextAuthConfig } from 'next-auth'
 
+// Автоматическое определение URL для продакшена и разработки
+const getBaseUrl = () => {
+  if (process.env.NEXTAUTH_URL) {
+    return process.env.NEXTAUTH_URL
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return process.env.NODE_ENV === 'production' 
+    ? 'https://your-app.vercel.app' // Замените на ваш URL
+    : 'http://localhost:3000'
+}
+
 export const authOptions: NextAuthConfig = {
   adapter: PrismaAdapter(prisma) as any,
   secret: process.env.AUTH_SECRET,
